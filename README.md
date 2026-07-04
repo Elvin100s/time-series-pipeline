@@ -22,12 +22,26 @@ This project uses a time series dataset of power consumption for the city of Té
 
 ```
 time-series-pipeline/
-├── notebooks/        # Jupyter notebooks for analysis and modeling
-├── src/              # Source code (data loading, processing, pipeline scripts)
-├── models/           # Saved/exported models
-├── docs/             # Documentation and reports
+├── README.md
 ├── .gitignore
-└── README.md
+├── 00_full_pipeline.ipynb              ← combined final notebook (Elvin pushes)
+│
+├── notebooks/
+│   ├── 01_eda_preprocessing_homere.ipynb    ← Homere pushes
+│   ├── 02_modeling_elvin.ipynb              ← Elvin pushes
+│   ├── 03_databases_heroine.ipynb           ← Heroine pushes
+│   └── 04_api_and_pipeline_samuel.ipynb     ← Samuel pushes
+│
+├── src/
+│   ├── app.py                          ← Samuel pushes (Flask API)
+│   └── predict.py                      ← Samuel pushes (forecast script)
+│
+├── models/
+│   ├── best_model.pkl                  ← Elvin pushes
+│   └── feature_cols.pkl                ← Elvin pushes
+│
+└── docs/
+    └── erd.png                         ← Heroine pushes (dbdiagram export)
 ```
 
 ---
