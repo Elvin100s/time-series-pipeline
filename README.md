@@ -2,19 +2,23 @@
 
 **Team:** Elvin Cyubahiro, Samuel Rurangamirwa, Heroine Mutumwinka, Singizwa Homere
 
-**Course:** <!-- TODO: Add course name -->
+**Course:** Machine Learning Pipeline
 
-**Submission Date:** <!-- TODO: Add submission date -->
+**Submission Date:** 5th July 2026
 
 ---
 
 ## Dataset
 
-<!-- TODO: Add dataset description and link -->
+This project uses a **time series dataset of power consumption for the city of Tétouan, Morocco**. The data contains **52,416 observations** recorded at **10-minute intervals throughout 2017** across three distribution zones:
 
-This project uses a time series dataset of power consumption for the city of Tétouan, Morocco. The data includes measurements from three distribution zones and various environmental factors.
+- **Quads**
+- **Smir**
+- **Boussafou**
 
-<!-- Provide source link once confirmed -->
+The dataset also includes weather variables and solar diffuse flow.
+
+Source: [Kaggle / UCI Machine Learning Repository — Power Consumption of Tétouan City](https://www.kaggle.com/datasets/fedesoriano/tetouan-city-power-consumption)
 
 ---
 
@@ -24,24 +28,24 @@ This project uses a time series dataset of power consumption for the city of Té
 time-series-pipeline/
 ├── README.md
 ├── .gitignore
-├── Group1_Formative_1_pipeline_notebook.ipynb  ← combined final notebook (Elvin pushes)
+├── Group1_Formative_1_pipeline_notebook.ipynb  ← combined final notebook
 │
 ├── notebooks/
-│   ├── 01_eda_preprocessing_homere.ipynb    ← Homere pushes
-│   ├── 02_modeling_elvin.ipynb              ← Elvin pushes
-│   ├── 03_databases_heroine.ipynb           ← Heroine pushes
-│   └── 04_api_and_pipeline_samuel.ipynb     ← Samuel pushes
+│   ├── 01_eda_preprocessing_homere.ipynb
+│   ├── 02_modeling_elvin.ipynb
+│   ├── 03_databases_heroine.ipynb
+│   └── 04_api_and_pipeline_samuel.ipynb
 │
 ├── src/
-│   ├── app.py                          ← Samuel pushes (Flask API)
-│   └── predict.py                      ← Samuel pushes (forecast script)
+│   ├── app.py                          ← Flask API
+│   └── predict.py                      ← forecast script
 │
 ├── models/
-│   ├── best_model.pkl                  ← Elvin pushes
-│   └── feature_cols.pkl                ← Elvin pushes
+│   ├── best_model.pkl
+│   └── feature_cols.pkl
 │
 └── docs/
-    └── erd.png                         ← Heroine pushes (dbdiagram export)
+    └── erd.png                         ← database ER diagram
 ```
 
 ---
@@ -50,7 +54,9 @@ time-series-pipeline/
 
 ### Prerequisites
 
-<!-- TODO: List Python version and required libraries -->
+- Python 3.9+
+- Jupyter Notebook or JupyterLab
+- Required libraries: `pandas`, `numpy`, `matplotlib`, `seaborn`, `scikit-learn`, `xgboost`, `flask`, `mysql-connector-python`, `pymongo`, `joblib`
 
 ### Setup
 
@@ -68,15 +74,15 @@ time-series-pipeline/
 
 3. Install dependencies:
    ```bash
-   pip install -r requirements.txt
+   pip install pandas numpy matplotlib seaborn scikit-learn xgboost flask mysql-connector-python pymongo joblib
    ```
 
-4. Launch Jupyter:
+4. Launch Jupyter and open the desired notebook:
    ```bash
    jupyter notebook notebooks/
    ```
 
-<!-- TODO: Add any additional reproduction steps -->
+> **Note:** The databases notebook (`03_databases_Heroine (2).ipynb`) requires `MYSQL_*` and `MONGO_URI` secrets to be set (e.g., via Colab secrets or environment variables).
 
 ---
 
@@ -84,11 +90,25 @@ time-series-pipeline/
 
 | Member | Contribution |
 |---|---|
-| Elvin Cyubahiro | <!-- TODO --> |
-| Samuel Rurangamirwa | <!-- TODO --> |
-| Heroine Mutumwinka | <!-- TODO --> |
-| Singizwa Homere | <!-- TODO --> |
+| **Elvin Cyubahiro** | Feature engineering (cyclical encodings, multi-horizon lags, leakage-corrected rolling statistics), TimeSeriesSplit cross-validation, XGBoost & Random Forest hyperparameter tuning, model serialization |
+| **Samuel Rurangamirwa** | Flask REST API (CRUD & time-series endpoints), pipeline orchestration, prediction script |
+| **Heroine Mutumwinka** | MySQL schema design, data seeding, SQL queries; MongoDB collection design, document insertion, aggregation queries; database ER diagram |
+| **Singizwa Homere** | Exploratory Data Analysis (EDA), data preprocessing and cleaning, feature exploration, dataset visualization |
 
 ---
 
-<!-- License info if applicable -->
+## Pipeline Overview
+
+This project implements an end-to-end time series data pipeline:
+
+1. **EDA & Preprocessing** (Singizwa) — Data cleaning, exploratory analysis, visualisation
+2. **Modeling** (Elvin) — Feature engineering, cross-validation, hyperparameter tuning (XGBoost, Random Forest)
+3. **Databases** (Heroine) — MySQL relational storage & MongoDB document storage with aggregation queries
+4. **API & Pipeline** (Samuel) — Flask REST API serving predictions and pipeline orchestration
+
+---
+
+## License
+
+This project is submitted as part of the Formative 1 assessment for the Machine Learning Pipeline course — Group 1.
+
