@@ -1,4 +1,4 @@
-# Formative 1: Time Series Data Pipeline — Power Consumption of Tétouan City
+# Formative 1: Time Series Data Pipeline — Power Consumption of Tétouan City, Morocco
 
 **Team:** Elvin Cyubahiro, Samuel Rurangamirwa, Heroine Mutumwinka, Singizwa Homere
 
