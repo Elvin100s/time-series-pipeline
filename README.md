@@ -24,7 +24,7 @@ This project uses a time series dataset of power consumption for the city of Té
 time-series-pipeline/
 ├── README.md
 ├── .gitignore
-├── 00_full_pipeline.ipynb              ← combined final notebook (Elvin pushes)
+├── Group1_Formative_1_pipeline_notebook.ipynb  ← combined final notebook (Elvin pushes)
 │
 ├── notebooks/
 │   ├── 01_eda_preprocessing_homere.ipynb    ← Homere pushes
