@@ -3,17 +3,28 @@
     {
       "cell_type": "markdown",
       "metadata": {
+        "id": "view-in-github",
+        "colab_type": "text"
+      },
+      "source": [
+        "<a href=\"https://colab.research.google.com/github/Elvin100s/time-series-pipeline/blob/main/notebooks\" target=\"_parent\"><img src=\"https://colab.research.google.com/assets/colab-badge.svg\" alt=\"Open In Colab\"/></a>"
+      ]
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {
         "id": "2ePVUe-MvW5u"
       },
       "source": [
         "# Formative 1: Time Series Data Pipeline — Task 2: Databases (MySQL & MongoDB)\n",
-        "**Group 1** | [COURSE NAME] | [SUBMISSION DATE]\n",
+        "**Group 1** | Machine learning Pipeline | 5/7/2026\n",
         "\n",
         "**Notebook owner:** Heroine Mutumwinka\n",
         "**Responsibility:** MySQL schema (3 tables + ERD + indexes), data seeding, 3 SQL queries; MongoDB collection design, document insertion, 3 aggregation queries.\n",
         "\n",
         "Part of a 4-notebook pipeline: `01_eda_preprocessing` → `02_modeling` → `03_databases` → `04_api_and_pipeline`.\n",
-        "Full end-to-end version: `00_full_pipeline.ipynb`. GitHub: [REPO URL]\n",
+        "Full end-to-end version: `00_full_pipeline.ipynb`. GitHub: https://github.com/Elvin100s/time-series-pipeline/tree/main\n",
+        "\n",
         "\n",
         "**Requires:** `MYSQL_*` and `MONGO_URI` Colab secrets.\n",
         "**Seeds the cloud databases consumed by notebook 04.**\n",
@@ -67,7 +78,7 @@
           "base_uri": "https://localhost:8080/"
         },
         "id": "986cdc43",
-        "outputId": "5d55a48b-16d0-4a81-bf0e-bb4806cb6fbd"
+        "outputId": "061544fc-6dc6-41e5-c4d3-e1b545bd7a00"
       },
       "outputs": [
         {
@@ -105,17 +116,38 @@
           "base_uri": "https://localhost:8080/"
         },
         "id": "c3b8d787",
-        "outputId": "66bbd3b9-c580-4621-ff57-f8f0746fb60f"
+        "outputId": "85690eea-985e-4d6c-e7a8-500e800a923d"
       },
       "outputs": [
         {
           "output_type": "stream",
           "name": "stdout",
           "text": [
-            "Using Colab cache for faster access to the 'electric-power-consumption' dataset.\n",
-            "Downloaded to: /kaggle/input/electric-power-consumption\n",
-            "CSV files found: ['/kaggle/input/electric-power-consumption/powerconsumption.csv']\n",
-            "Using: /kaggle/input/electric-power-consumption/powerconsumption.csv\n"
+            "Downloading to /root/.cache/kagglehub/datasets/fedesoriano/electric-power-consumption/1.archive...\n"
+          ]
+        },
+        {
+          "output_type": "stream",
+          "name": "stderr",
+          "text": [
+            "100%|██████████| 1.36M/1.36M [00:00<00:00, 99.7MB/s]"
+          ]
+        },
+        {
+          "output_type": "stream",
+          "name": "stdout",
+          "text": [
+            "Extracting files...\n",
+            "Downloaded to: /root/.cache/kagglehub/datasets/fedesoriano/electric-power-consumption/versions/1\n",
+            "CSV files found: ['/root/.cache/kagglehub/datasets/fedesoriano/electric-power-consumption/versions/1/powerconsumption.csv']\n",
+            "Using: /root/.cache/kagglehub/datasets/fedesoriano/electric-power-consumption/versions/1/powerconsumption.csv\n"
+          ]
+        },
+        {
+          "output_type": "stream",
+          "name": "stderr",
+          "text": [
+            "\n"
           ]
         }
       ],
@@ -124,16 +156,6 @@
         "\n",
         "import kagglehub\n",
         "import os, glob\n",
-        "\n",
-        "# NOTE: kagglehub needs Kaggle API credentials to download.\n",
-        "# In Colab: Settings (gear icon, left sidebar) -> Secrets -> add KAGGLE_USERNAME and KAGGLE_KEY\n",
-        "#   (get these from kaggle.com/settings -> API -> Create New Token, opens a kaggle.json file\n",
-        "#    containing both values)\n",
-        "# Then uncomment the 3 lines below to load them into the environment:\n",
-        "\n",
-        "# from google.colab import userdata\n",
-        "# os.environ['KAGGLE_USERNAME'] = userdata.get('KAGGLE_USERNAME')\n",
-        "# os.environ['KAGGLE_KEY'] = userdata.get('KAGGLE_KEY')\n",
         "\n",
         "try:\n",
         "    path = kagglehub.dataset_download(\"fedesoriano/electric-power-consumption\")\n",
@@ -157,7 +179,7 @@
           "base_uri": "https://localhost:8080/"
         },
         "id": "c47611a1",
-        "outputId": "500c1417-3b0a-456b-ca0f-25034ed22f4c"
+        "outputId": "d4f708ae-5506-47cf-de9a-ad24dec9b85a"
       },
       "outputs": [
         {
@@ -180,6 +202,16 @@
       ]
     },
     {
+      "cell_type": "markdown",
+      "source": [
+        "cleaning column names , finding datetime column and sanity check"
+      ],
+      "metadata": {
+        "id": "aEzwPL-E4UU2"
+      },
+      "id": "aEzwPL-E4UU2"
+    },
+    {
       "cell_type": "code",
       "execution_count": 4,
       "id": "856ef64b",
@@ -189,7 +221,7 @@
           "height": 307
         },
         "id": "856ef64b",
-        "outputId": "9bfef0f5-fc02-47b3-81b1-73a7cb9aabaa"
+        "outputId": "2213a603-2dbb-4c65-c48c-6cfddda02b95"
       },
       "outputs": [
         {
@@ -232,7 +264,7 @@
             ],
             "text/html": [
               "\n",
-              "  <div id=\"df-52325e23-75e3-4d14-90ae-773e0c39a788\" class=\"colab-df-container\">\n",
+              "  <div id=\"df-59ea88ca-c560-4390-a795-6d6d6ea1b575\" class=\"colab-df-container\">\n",
               "    <div>\n",
               "<style scoped>\n",
               "    .dataframe tbody tr th:only-of-type {\n",
@@ -341,7 +373,7 @@
               "    <div class=\"colab-df-buttons\">\n",
               "\n",
               "  <div class=\"colab-df-container\">\n",
-              "    <button class=\"colab-df-convert\" onclick=\"convertToInteractive('df-52325e23-75e3-4d14-90ae-773e0c39a788')\"\n",
+              "    <button class=\"colab-df-convert\" onclick=\"convertToInteractive('df-59ea88ca-c560-4390-a795-6d6d6ea1b575')\"\n",
               "            title=\"Convert this dataframe to an interactive table.\"\n",
               "            style=\"display:none;\">\n",
               "\n",
@@ -393,12 +425,12 @@
               "\n",
               "    <script>\n",
               "      const buttonEl =\n",
-              "        document.querySelector('#df-52325e23-75e3-4d14-90ae-773e0c39a788 button.colab-df-convert');\n",
+              "        document.querySelector('#df-59ea88ca-c560-4390-a795-6d6d6ea1b575 button.colab-df-convert');\n",
               "      buttonEl.style.display =\n",
               "        google.colab.kernel.accessAllowed ? 'block' : 'none';\n",
               "\n",
               "      async function convertToInteractive(key) {\n",
-              "        const element = document.querySelector('#df-52325e23-75e3-4d14-90ae-773e0c39a788');\n",
+              "        const element = document.querySelector('#df-59ea88ca-c560-4390-a795-6d6d6ea1b575');\n",
               "        const dataTable =\n",
               "          await google.colab.kernel.invokeFunction('convertToInteractive',\n",
               "                                                    [key], {});\n",
@@ -434,11 +466,11 @@
       "source": [
         "df = pd.read_csv(CSV_PATH)\n",
         "\n",
-        "# Clean column names defensively (strip whitespace, handle BOM)\n",
+        "\n",
         "df.columns = [str(c).strip().replace('\\ufeff', '') for c in df.columns]\n",
         "print(\"Raw columns:\", list(df.columns))\n",
         "\n",
-        "# Find the datetime column regardless of exact name/case\n",
+        "\n",
         "dt_col = next((c for c in df.columns if c.lower() in\n",
         "               ('datetime', 'date_time', 'date', 'timestamp')), df.columns[0])\n",
         "print(\"Detected datetime column:\", dt_col)\n",
@@ -446,7 +478,7 @@
         "df[dt_col] = pd.to_datetime(df[dt_col])\n",
         "df = df.rename(columns={dt_col: 'DateTime'}).set_index('DateTime').sort_index()\n",
         "\n",
-        "# Sanity check: dataset should have exactly 8 remaining feature columns\n",
+        "\n",
         "assert df.shape[1] == 8, \"Expected 8 feature columns, got {}: {}\".format(df.shape[1], list(df.columns))\n",
         "\n",
         "df.columns = ['Temperature', 'Humidity', 'WindSpeed', 'GeneralDiffuseFlows',\n",
@@ -500,21 +532,22 @@
     },
     {
       "cell_type": "code",
-      "execution_count": 10,
+      "execution_count": 5,
       "id": "acd3bed4",
       "metadata": {
         "colab": {
           "base_uri": "https://localhost:8080/"
         },
         "id": "acd3bed4",
-        "outputId": "526912ce-21ae-42ed-880e-4ca11ef7161d"
+        "outputId": "e568ac82-9f90-4ab3-c1a5-ec629ab8d03a"
       },
       "outputs": [
         {
           "output_type": "stream",
           "name": "stdout",
           "text": [
-            "Connected to MySQL: sql7.freesqldatabase.com\n"
+            "\u001b[2K   \u001b[90m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\u001b[0m \u001b[32m21.7/21.7 MB\u001b[0m \u001b[31m48.4 MB/s\u001b[0m eta \u001b[36m0:00:00\u001b[0m\n",
+            "\u001b[?25hConnected to MySQL: sql7.freesqldatabase.com\n"
           ]
         }
       ],
@@ -533,7 +566,7 @@
         "        'database': userdata.get('MYSQL_DATABASE').splitlines()[0].strip(),\n",
         "    }\n",
         "except ImportError:\n",
-        "    # Fallback for non-Colab environments (e.g. local Jupyter): use env vars\n",
+        "\n",
         "    MYSQL_CONFIG = {\n",
         "        'host':     os.environ['MYSQL_HOST'],\n",
         "        'user':     os.environ['MYSQL_USER'],\n",
@@ -558,15 +591,25 @@
       ]
     },
     {
+      "cell_type": "markdown",
+      "source": [
+        "Here I am going to drop existing tables inclundin zonez ,weather readings , power consumption"
+      ],
+      "metadata": {
+        "id": "G3rNglaV4tQH"
+      },
+      "id": "G3rNglaV4tQH"
+    },
+    {
       "cell_type": "code",
-      "execution_count": 11,
+      "execution_count": 6,
       "id": "bae0559f",
       "metadata": {
         "colab": {
           "base_uri": "https://localhost:8080/"
         },
         "id": "bae0559f",
-        "outputId": "6478ec37-1d28-48a5-c590-2dced485c397"
+        "outputId": "8cead354-1cbf-4344-ae6b-4dec63bd23ec"
       },
       "outputs": [
         {
@@ -578,7 +621,7 @@
         }
       ],
       "source": [
-        "# Drop existing tables (order matters due to foreign keys)\n",
+        "\n",
         "cur.execute('DROP TABLE IF EXISTS power_consumption')\n",
         "cur.execute('DROP TABLE IF EXISTS weather_readings')\n",
         "cur.execute('DROP TABLE IF EXISTS zones')\n",
@@ -631,19 +674,20 @@
         "id": "72231c38"
       },
       "source": [
-        "### Seed Data"
+        "### Seed Data\n",
+        "for inserting zone metadata,resample to hourly for manageable BD size"
       ]
     },
     {
       "cell_type": "code",
-      "execution_count": 12,
+      "execution_count": 7,
       "id": "62a7afa4",
       "metadata": {
         "colab": {
           "base_uri": "https://localhost:8080/"
         },
         "id": "62a7afa4",
-        "outputId": "186b92d7-44d6-4686-fe08-2c9560ee85e8"
+        "outputId": "538ceb79-25f3-4ec7-dee6-a07e9499b9f3"
       },
       "outputs": [
         {
@@ -655,7 +699,7 @@
         }
       ],
       "source": [
-        "# Insert zone metadata\n",
+        "\n",
         "cur.executemany(\n",
         "    'INSERT INTO zones (zone_id, zone_name, station, description) VALUES (%s,%s,%s,%s)',\n",
         "    [\n",
@@ -665,10 +709,10 @@
         "    ]\n",
         ")\n",
         "\n",
-        "# Resample to hourly for manageable DB size\n",
+        "\n",
         "h = df.resample('1h').mean().reset_index()\n",
         "\n",
-        "# Insert weather readings\n",
+        "\n",
         "w_rows = [(r.DateTime.strftime('%Y-%m-%d %H:%M:%S'),\n",
         "           round(r.Temperature,3), round(r.Humidity,3),\n",
         "           round(r.WindSpeed,3), round(r.GeneralDiffuseFlows,3),\n",
@@ -677,7 +721,7 @@
         "    'INSERT INTO weather_readings (timestamp,temperature,humidity,'\n",
         "    'wind_speed,general_diffuse,diffuse_flows) VALUES (%s,%s,%s,%s,%s,%s)', w_rows)\n",
         "\n",
-        "# Insert consumption (3 rows per timestamp — one per zone)\n",
+        "\n",
         "c_rows = []\n",
         "for r in h.itertuples():\n",
         "    ts = r.DateTime.strftime('%Y-%m-%d %H:%M:%S')\n",
@@ -703,14 +747,14 @@
     },
     {
       "cell_type": "code",
-      "execution_count": 13,
+      "execution_count": 8,
       "id": "b9713469",
       "metadata": {
         "colab": {
           "base_uri": "https://localhost:8080/"
         },
         "id": "b9713469",
-        "outputId": "19f93373-0833-4052-891f-99257e03ef5d"
+        "outputId": "920d0903-1334-4586-e309-1334d40cd1d5"
       },
       "outputs": [
         {
@@ -743,14 +787,14 @@
     },
     {
       "cell_type": "code",
-      "execution_count": 14,
+      "execution_count": 9,
       "id": "c3a85705",
       "metadata": {
         "colab": {
           "base_uri": "https://localhost:8080/"
         },
         "id": "c3a85705",
-        "outputId": "2cafd3df-ba74-484d-f954-eef5f2a7d378"
+        "outputId": "7f71aa4d-9980-4838-d143-b6778e529d48"
       },
       "outputs": [
         {
@@ -788,14 +832,14 @@
     },
     {
       "cell_type": "code",
-      "execution_count": 15,
+      "execution_count": 10,
       "id": "00ccd037",
       "metadata": {
         "colab": {
           "base_uri": "https://localhost:8080/"
         },
         "id": "00ccd037",
-        "outputId": "45930a56-53f9-411f-d257-991e8ab12d01"
+        "outputId": "50c72be7-4359-4323-e3f7-c337f3703a89"
       },
       "outputs": [
         {
@@ -889,22 +933,22 @@
     },
     {
       "cell_type": "code",
-      "execution_count": 16,
+      "execution_count": 11,
       "id": "3a44543d",
       "metadata": {
         "colab": {
           "base_uri": "https://localhost:8080/"
         },
         "id": "3a44543d",
-        "outputId": "365af53f-1101-4b2c-fec6-ddc83ee169ad"
+        "outputId": "4add4891-bd39-404f-ac4e-84d0fa1f7bd7"
       },
       "outputs": [
         {
           "output_type": "stream",
           "name": "stdout",
           "text": [
-            "\u001b[?25l   \u001b[90m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\u001b[0m \u001b[32m0.0/1.8 MB\u001b[0m \u001b[31m?\u001b[0m eta \u001b[36m-:--:--\u001b[0m\r\u001b[2K   \u001b[91m━━━━━━\u001b[0m\u001b[90m╺\u001b[0m\u001b[90m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\u001b[0m \u001b[32m0.3/1.8 MB\u001b[0m \u001b[31m8.7 MB/s\u001b[0m eta \u001b[36m0:00:01\u001b[0m\r\u001b[2K   \u001b[91m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\u001b[0m\u001b[91m╸\u001b[0m \u001b[32m1.8/1.8 MB\u001b[0m \u001b[31m28.0 MB/s\u001b[0m eta \u001b[36m0:00:01\u001b[0m\r\u001b[2K   \u001b[90m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\u001b[0m \u001b[32m1.8/1.8 MB\u001b[0m \u001b[31m21.3 MB/s\u001b[0m eta \u001b[36m0:00:00\u001b[0m\n",
-            "\u001b[?25h\u001b[?25l   \u001b[90m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\u001b[0m \u001b[32m0.0/331.1 kB\u001b[0m \u001b[31m?\u001b[0m eta \u001b[36m-:--:--\u001b[0m\r\u001b[2K   \u001b[90m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\u001b[0m \u001b[32m331.1/331.1 kB\u001b[0m \u001b[31m23.7 MB/s\u001b[0m eta \u001b[36m0:00:00\u001b[0m\n",
+            "\u001b[?25l   \u001b[90m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\u001b[0m \u001b[32m0.0/1.8 MB\u001b[0m \u001b[31m?\u001b[0m eta \u001b[36m-:--:--\u001b[0m\r\u001b[2K   \u001b[91m━━━━━\u001b[0m\u001b[91m╸\u001b[0m\u001b[90m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\u001b[0m \u001b[32m0.3/1.8 MB\u001b[0m \u001b[31m7.4 MB/s\u001b[0m eta \u001b[36m0:00:01\u001b[0m\r\u001b[2K   \u001b[91m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\u001b[0m\u001b[91m╸\u001b[0m \u001b[32m1.8/1.8 MB\u001b[0m \u001b[31m25.5 MB/s\u001b[0m eta \u001b[36m0:00:01\u001b[0m\r\u001b[2K   \u001b[90m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\u001b[0m \u001b[32m1.8/1.8 MB\u001b[0m \u001b[31m19.3 MB/s\u001b[0m eta \u001b[36m0:00:00\u001b[0m\n",
+            "\u001b[?25h\u001b[?25l   \u001b[90m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\u001b[0m \u001b[32m0.0/331.1 kB\u001b[0m \u001b[31m?\u001b[0m eta \u001b[36m-:--:--\u001b[0m\r\u001b[2K   \u001b[90m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\u001b[0m \u001b[32m331.1/331.1 kB\u001b[0m \u001b[31m15.7 MB/s\u001b[0m eta \u001b[36m0:00:00\u001b[0m\n",
             "\u001b[?25hInserted 8736 documents into MongoDB Atlas.\n"
           ]
         }
@@ -925,10 +969,9 @@
         "mdb = mongo_client['tetouan_power']\n",
         "coll = mdb['readings']\n",
         "\n",
-        "# Clear existing data\n",
+        "\n",
         "coll.drop()\n",
         "\n",
-        "# Insert documents\n",
         "h = df.resample('1h').mean().reset_index()\n",
         "docs = []\n",
         "for r in h.itertuples():\n",
@@ -965,14 +1008,14 @@
     },
     {
       "cell_type": "code",
-      "execution_count": 17,
+      "execution_count": 12,
       "id": "d3e367f6",
       "metadata": {
         "colab": {
           "base_uri": "https://localhost:8080/"
         },
         "id": "d3e367f6",
-        "outputId": "39f88e05-6d6e-461b-bc1a-a15a4bb0d1bf"
+        "outputId": "9833cb91-1dc8-4a61-a4b7-cd9c24cb1c57"
       },
       "outputs": [
         {
@@ -1020,14 +1063,14 @@
     },
     {
       "cell_type": "code",
-      "execution_count": 18,
+      "execution_count": 13,
       "id": "e7171a71",
       "metadata": {
         "colab": {
           "base_uri": "https://localhost:8080/"
         },
         "id": "e7171a71",
-        "outputId": "e101a299-2360-4318-e8bb-ac9178203c7d"
+        "outputId": "926cc50b-471d-4743-a9a5-987257a9277a"
       },
       "outputs": [
         {
@@ -1055,14 +1098,14 @@
     },
     {
       "cell_type": "code",
-      "execution_count": 19,
+      "execution_count": 14,
       "id": "b1680c78",
       "metadata": {
         "colab": {
           "base_uri": "https://localhost:8080/"
         },
         "id": "b1680c78",
-        "outputId": "0072973e-b89c-4448-daa8-7d3e58480484"
+        "outputId": "92f97ffe-1b52-48e5-d5f2-3c4380369e09"
       },
       "outputs": [
         {
@@ -1088,14 +1131,14 @@
     },
     {
       "cell_type": "code",
-      "execution_count": 20,
+      "execution_count": 15,
       "id": "95dd1b1a",
       "metadata": {
         "colab": {
           "base_uri": "https://localhost:8080/"
         },
         "id": "95dd1b1a",
-        "outputId": "ffefdf28-661c-4555-d360-76f3df079660"
+        "outputId": "2a48d795-649f-4fc2-8413-b82ee324ca10"
       },
       "outputs": [
         {
@@ -1154,7 +1197,8 @@
       "version": "3.12.0"
     },
     "colab": {
-      "provenance": []
+      "provenance": [],
+      "include_colab_link": true
     }
   },
   "nbformat": 4,
