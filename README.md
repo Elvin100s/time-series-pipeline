@@ -6,7 +6,6 @@
 
 **Submission Date:** 5th July 2026
 
----
 
 ## Dataset
 
@@ -20,6 +19,15 @@ The dataset also includes weather variables and solar diffuse flow.
 
 Source: [Kaggle / UCI Machine Learning Repository — Power Consumption of Tétouan City](https://www.kaggle.com/datasets/fedesoriano/tetouan-city-power-consumption)
 
+<!-- Provide source link once confirmed -->
+## Task 1: EDA & Preprocessing (Singizwa)
+(Add README documenting Task 1 EDA methodology and dataset source)
+
+This notebook (`SINGIZWA_Homere_Group_1_Formative_1_pipeline.ipynb`) performs
+exploratory data analysis on the Tétouan City power consumption dataset:
+- Time range, frequency, and missing value analysis
+- Statistical distributions and outlier interpretation
+- 5 analytical questions including lag features and moving averages
 ---
 
 ## Repository Structure
